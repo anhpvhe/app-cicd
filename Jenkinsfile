@@ -3,11 +3,6 @@ pipeline{
     // tools{
     //     maven "maven_3_9_6"
     // }
-     environment {
-        DOCKER_REGISTRY = 'docker.io'
-        DOCKER_USERNAME = 'anhpvhe'
-        DOCKER_CREDENTIALS_ID = 'dockerhub-pwd' // ID of Jenkins credential storing Docker Hub password
-    }
     stages{
         stage('Verify tooling'){
             steps{
@@ -26,25 +21,14 @@ pipeline{
                 }
             }
         }
-        stage('Login to Docker Registry') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    script {
-                    // Use Docker Hub credentials to login
-                    def loginCmd = "docker login --username ${DOCKER_USERNAME} --password-stdin ${DOCKER_REGISTRY}"
-                    withCredentials([usernamePassword(credentialsId: DOCKER_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh returnStatus: true, script: "echo ${DOCKER_PASSWORD} | ${loginCmd}"
-                    }
-                }
-                }
-            }
-        }
         stage('Push images to hub'){
             steps{
                 script{
-                    bat 'docker push anhpvhe/full-stack-userdashboard-database'
-                    bat 'docker push anhpvhe/full-stack-userdashboard-backend'
-                    bat 'docker push anhpvhe/full-stack-userdashboard-frontend'
+                    withDockerRegistry(credentialsId: 'dockerhub-pwd'){
+                        bat 'docker push anhpvhe/full-stack-userdashboard-database'
+                        bat 'docker push anhpvhe/full-stack-userdashboard-backend'
+                        bat 'docker push anhpvhe/full-stack-userdashboard-frontend'
+                    }
                 }
             }
         }
