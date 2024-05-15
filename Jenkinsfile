@@ -8,6 +8,9 @@ pipeline{
     //     DOCKER_USERNAME = 'anhpvhe'
     //     DOCKER_CREDENTIALS_ID = 'dockerhub-id' // ID of Jenkins credential storing Docker Hub password
     // }
+    environment{
+        DOCKER_CREDENTIALS_ID = credential('dockerhub-pwd')
+    }
     stages{
         // stage('Verify tooling'){
         //     steps{
@@ -45,7 +48,7 @@ pipeline{
         stage('Push images to hub'){
             steps{
                 script{
-                        bat 'docker login docker.io -u anhpvhe -p 123456789'
+                        bat 'docker login docker.io -u anhpvhe -p ${DOCKER_CREDENTIALS_ID}'
 
                         // bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
                         // bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
