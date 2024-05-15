@@ -48,8 +48,10 @@ pipeline{
         stage('Push images to hub'){
             steps{
                 script{
-                        bat 'docker login docker.io -u anhpvhe -p ${DOCKER_CREDENTIALS_ID}'
-
+                        // bat 'docker login docker.io -u anhpvhe -p ${DOCKER_CREDENTIALS_ID}'
+                        withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                            bat 'docker login docker.io -u anhpvhe -p ${dockerhubpwd}'
+                        }
                         // bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
                         // bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
                         // bat 'docker tag full-stack-userdashboard-frontend anhpvhe/full-stack-userdashboard-frontend'
