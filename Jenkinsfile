@@ -23,9 +23,9 @@ pipeline{
             steps{
                 script{
                     bat 'docker compose build'
-                    bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
-                    bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
-                    bat 'docker tag full-stack-userdashboard-frontend anhpvhe/full-stack-userdashboard-frontend'
+                    // bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
+                    // bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
+                    // bat 'docker tag full-stack-userdashboard-frontend anhpvhe/full-stack-userdashboard-frontend'
                 }
             }
         }
@@ -48,6 +48,9 @@ pipeline{
                         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                             bat 'docker login -u anhpvhe ${dockerhubpwd}'
                         }
+                        bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
+                        bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
+                        bat 'docker tag full-stack-userdashboard-frontend anhpvhe/full-stack-userdashboard-frontend'
                         bat 'docker push anhpvhe/full-stack-userdashboard-database'
                         bat 'docker push anhpvhe/full-stack-userdashboard-backend'
                         bat 'docker push anhpvhe/full-stack-userdashboard-frontend'
