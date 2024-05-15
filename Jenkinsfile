@@ -8,9 +8,9 @@ pipeline{
     //     DOCKER_USERNAME = 'anhpvhe'
     //     DOCKER_CREDENTIALS_ID = 'dockerhub-id' // ID of Jenkins credential storing Docker Hub password
     // }
-    environment{
-        DOCKER_CREDENTIALS_ID = credential('dockerhub-pwd')
-    }
+    // environment{
+    //     DOCKER_CREDENTIALS_ID = credential('dockerhub-pwd')
+    // }
     stages{
         // stage('Verify tooling'){
         //     steps{
