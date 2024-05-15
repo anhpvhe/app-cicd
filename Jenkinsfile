@@ -1,7 +1,10 @@
 pipeline{
     agent any
+    // tools{
+    //     maven "maven_3_9_6"
+    // }
     stages{
-        stage('verify tooling'){
+        stage('Verify tooling'){
             steps{
                 bat '''
                 docker info
@@ -11,22 +14,34 @@ pipeline{
                 '''
             }
         }
-        stage('Prune Docker Data'){
+        stage('Build Docker images'){
             steps{
-                bat 'docker system prune -a --volumes -f'
+                script{
+                    bat 'docker compose build'
+                    bat 'docker compose ps'
+                }
             }
         }
-        stage('Start Container'){
+        stage('Push images to hub'){
             steps{
-                bat 'docker compose up -d --no-color --wait'
-                bat 'docker compose ps'
+                script{
+                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                        bat 'docker login -u anhpvhe -p ${dockerhubpwd}'
+                    }
+                    bat 'docker push anhpvhe/full-stack-userdashboard-database'
+                    bat 'docker push anhpvhe/full-stack-userdashboard-backend'
+                    bat 'docker push anhpvhe/full-stack-userdashboard-frontend'
+                }
             }
         }
     }
-    post{
-        always{
-            bat 'docker compose down --remove-orphans -v'
-            bat 'docker compose ps'
+post {
+        always {
+            // Clean up Docker containers and volumes after the build
+            script {
+                bat 'docker-compose down -v'
+                bat 'docker compose ps'
+            }
         }
     }
 }
