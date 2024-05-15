@@ -49,12 +49,12 @@ pipeline{
             }
         }
     }
-post {
-        always {
-            // Clean up Docker containers and volumes after the build
-            script {
-                bat 'docker-compose down -v'
-            }
-        }
-    }
+//      post {
+//         always {
+//             // Clean up Docker containers and volumes after the build
+//             script {
+//                 bat 'docker-compose down -v'
+//             }
+//         }
+//     }
 }
