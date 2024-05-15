@@ -46,7 +46,7 @@ pipeline{
             steps{
                 script{
                         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                            bat 'docker login docker.io -u anhpvhe ${dockerhubpwd}'
+                            bat 'echo %dockerhubpwd% | docker login -u anhpvhe --password-stdin docker.io'
                         }
                         // bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
                         // bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
