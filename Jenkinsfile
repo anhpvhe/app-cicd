@@ -46,15 +46,14 @@ pipeline{
             steps{
                 script{
                         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                            // bat 'echo %dockerhubpwd% | docker login -u anhpvhe --password-stdin docker.io'
-                            bat 'echo %dockerhubpwd%'
+                            bat 'docker login docker.io -u anhpvhe -p ${dockerhubpwd}'
                         }
                         // bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
                         // bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
                         // bat 'docker tag full-stack-userdashboard-frontend anhpvhe/full-stack-userdashboard-frontend'
-                        // bat 'docker push anhpvhe/full-stack-userdashboard-database'
-                        // bat 'docker push anhpvhe/full-stack-userdashboard-backend'
-                        // bat 'docker push anhpvhe/full-stack-userdashboard-frontend'
+                        bat 'docker push anhpvhe/full-stack-userdashboard-database'
+                        bat 'docker push anhpvhe/full-stack-userdashboard-backend'
+                        bat 'docker push anhpvhe/full-stack-userdashboard-frontend'
                 }
             }
         }
