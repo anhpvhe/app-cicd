@@ -9,16 +9,16 @@ pipeline{
     //     DOCKER_CREDENTIALS_ID = 'dockerhub-id' // ID of Jenkins credential storing Docker Hub password
     // }
     stages{
-        stage('Verify tooling'){
-            steps{
-                bat '''
-                docker info
-                docker version
-                docker compose version
-                curl --version
-                '''
-            }
-        }
+        // stage('Verify tooling'){
+        //     steps{
+        //         bat '''
+        //         docker info
+        //         docker version
+        //         docker compose version
+        //         curl --version
+        //         '''
+        //     }
+        // }
         stage('Build Docker images'){
             steps{
                 script{
@@ -46,11 +46,11 @@ pipeline{
             steps{
                 script{
                         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                            bat 'docker login -u anhpvhe ${dockerhubpwd}'
+                            bat 'docker login docker.io -u anhpvhe ${dockerhubpwd}'
                         }
-                        bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
-                        bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
-                        bat 'docker tag full-stack-userdashboard-frontend anhpvhe/full-stack-userdashboard-frontend'
+                        // bat 'docker tag full-stack-userdashboard-database anhpvhe/full-stack-userdashboard-database'
+                        // bat 'docker tag full-stack-userdashboard-backend anhpvhe/full-stack-userdashboard-backend'
+                        // bat 'docker tag full-stack-userdashboard-frontend anhpvhe/full-stack-userdashboard-frontend'
                         bat 'docker push anhpvhe/full-stack-userdashboard-database'
                         bat 'docker push anhpvhe/full-stack-userdashboard-backend'
                         bat 'docker push anhpvhe/full-stack-userdashboard-frontend'

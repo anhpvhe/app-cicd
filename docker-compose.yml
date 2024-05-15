@@ -9,6 +9,7 @@ services:
       - database_data:/var/lib/mysql
     networks:
       - spring_net
+    image: anhpvhe/full-stack-userdashboard-database
 
   backend:
     build: ./backend
@@ -21,6 +22,7 @@ services:
       - frontend_net
     depends_on:
       - database
+    image: anhpvhe/full-stack-userdashboard-backend
 
   frontend:
     build: ./frontend
@@ -28,6 +30,7 @@ services:
       - 3000:3000
     networks:
       - frontend_net
+    image: anhpvhe/full-stack-userdashboard-frontend
 
 networks:
   spring_net:
