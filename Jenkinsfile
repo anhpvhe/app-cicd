@@ -18,7 +18,6 @@ pipeline{
             steps{
                 script{
                     bat 'docker compose build'
-                    bat 'docker compose ps'
                 }
             }
         }
@@ -40,7 +39,6 @@ post {
             // Clean up Docker containers and volumes after the build
             script {
                 bat 'docker-compose down -v'
-                bat 'docker compose ps'
             }
         }
     }
